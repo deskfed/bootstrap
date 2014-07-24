@@ -106,6 +106,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             'content="'+startSym+'content'+endSym+'" ') +
           'placement="'+startSym+'placement'+endSym+'" '+
           'popup-class="'+startSym+'popupClass'+endSym+'" '+
+          'placement-fallback="'+startSym+'placementFallback'+endSym+'" '+
           'animation="animation" '+
           'is-open="isOpen"'+
           'origin-scope="origScope" '+
@@ -132,6 +133,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
               if (!tooltip) { return; }
 
               var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody);
+              var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, ttScope.placementFallback);
               ttPosition.top += 'px';
               ttPosition.left += 'px';
 
@@ -288,6 +290,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             function prepareTooltip() {
               prepPopupClass();
               prepPlacement();
+              prepPlacementFallback();
               prepPopupDelay();
             }
 
@@ -341,6 +344,11 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             function prepPlacement() {
               var val = attrs[ prefix + 'Placement' ];
               ttScope.placement = angular.isDefined( val ) ? val : options.placement;
+            }
+
+            function prepPlacementFallback() {
+              var val = attrs[ prefix + 'PlacementFallback' ];
+              ttScope.placementFallback = angular.isDefined( val ) ? val : options.placementFallback;
             }
 
             function prepPopupDelay() {
