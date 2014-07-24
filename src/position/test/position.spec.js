@@ -9,11 +9,12 @@ describe('position elements', function () {
     };
   };
 
-  var $position;
+  var $position, $window;
 
   beforeEach(module('ui.bootstrap.position'));
-  beforeEach(inject(function (_$position_) {
+  beforeEach(inject(function (_$position_, _$window_) {
     $position = _$position_;
+    $window = _$window_;
   }));
   beforeEach(function () {
     this.addMatchers({
@@ -93,6 +94,58 @@ describe('position elements', function () {
 
     it('should position elements on right-top when "right-top" specified', function () {
       expect($position.positionElements({}, new TargetElMock(10, 10), 'right-bottom')).toBePositionedAt(120, 120);
+    });
+
+    it('should offset calculated position right-top when left/top numbers are specified', function () {
+      expect($position.positionElements({}, new TargetElMock(10, 10), 'right-bottom 1x1')).toBePositionedAt(121, 121);
+    });
+
+    it('should allow negative offset', function () {
+      expect($position.positionElements({}, new TargetElMock(10, 10), 'right-bottom -1x-1')).toBePositionedAt(119, 119);
+    });
+
+    describe('Outside normal bounds', function () {
+      beforeEach(function () {
+        // Reposition so that it will always be out of bounds
+        $position.position = function() {
+          return {
+            width: 20,
+            height: 20,
+            top: 40,
+            left: 40
+          };
+        };
+
+        // mock $window info
+        $window.innerHeight = $window.innerWidth = 100;
+      });
+
+      it('should fallback to positionFallback if top is out of bounds', function () {
+        expect($position.positionElements({}, new TargetElMock(100, 100), 'bottom', false, 'top')).toBePositionedAt(-60, 0);
+      });
+      it('should fallback to positionFallback if bottom is out of bounds', function () {
+        expect($position.positionElements({}, new TargetElMock(100, 100), 'top', false, 'bottom')).toBePositionedAt(60, 0);
+      });
+      it('should fallback to positionFallback if left is out of bounds', function () {
+        expect($position.positionElements({}, new TargetElMock(100, 100), 'left', false, 'right')).toBePositionedAt(0, 60);
+      });
+      it('should fallback to positionFallback if right is out of bounds', function () {
+        expect($position.positionElements({}, new TargetElMock(100, 100), 'right', false, 'left')).toBePositionedAt(0, -60);
+      });
+
+      describe('with combination coordinates', function () {
+        it('should fallback to positionFallback if top is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right')).toBePositionedAt(30, 60);
+        });
+        it('should fallback to positionFallback if bottom is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(100, 10), 'top-right', false, 'bottom-left')).toBePositionedAt(60, 40);
+        });
+      });
+      describe('should fallback with offset applied', function () {
+        it('should fallback to positionFallback if top is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right 1x1')).toBePositionedAt(31, 61);
+        });
+      });
     });
   });
 
