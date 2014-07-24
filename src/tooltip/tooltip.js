@@ -118,6 +118,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
             'content-exp="contentExp()" ' :
             'content="'+startSym+'content'+endSym+'" ') +
           'placement="'+startSym+'placement'+endSym+'" '+
+          'placement-fallback="'+startSym+'placementFallback'+endSym+'" '+
           'popup-class="'+startSym+'popupClass'+endSym+'" '+
           'animation="animation" '+
           'is-open="isOpen"'+
@@ -156,7 +157,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
                   tooltip.css({ top: 0, left: 0 });
 
                   // Now set the calculated positioning.
-                  var ttCss = $position.positionElements(element, tooltip, ttScope.placement, appendToBody);
+                  var ttCss = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, ttScope.placementFallback);
                   ttCss.top += 'px';
                   ttCss.left += 'px';
                   ttCss.visibility = 'visible';
@@ -319,6 +320,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
               ttScope.popupClass = attrs[prefix + 'Class'];
               ttScope.placement = angular.isDefined(attrs[prefix + 'Placement']) ? attrs[prefix + 'Placement'] : options.placement;
+              ttScope.placementFallback = angular.isDefined(attrs[ prefix + 'PlacementFallback' ]) ? attrs[ prefix + 'PlacementFallback' ] : options.placementFallback;
 
               var delay = parseInt(attrs[prefix + 'PopupDelay'], 10);
               ttScope.popupDelay = !isNaN(delay) ? delay : options.popupDelay;
