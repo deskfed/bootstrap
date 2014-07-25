@@ -16,7 +16,10 @@ The tooltip directives provide several optional attributes to control how they
 will display:
 
 - `tooltip-placement`: Where to place it? Defaults to "top", but also accepts
-  "bottom", "left", "right".
+  "bottom", "left", "right", "bottom-left", "top-right", etc.
+- `tooltip-placement-fallback`: Same as `tooltip-placement` but is used when
+  the primary `tooltip-placement` puts the content outside of the visible
+  window.
 - `tooltip-animation`: Should it fade in and out? Defaults to "true".
 - `tooltip-popup-delay`: For how long should the user have to have the mouse
   over the element before the tooltip shows (in milliseconds)? Defaults to 0.
@@ -32,6 +35,21 @@ will display:
   Whether to show the tooltip.
 
 The tooltip directives require the `$position` service.
+
+**Positioning & Offset**
+
+Positioning can be specified in a few ways. First is the four standard positions
+(top, left, bottom, right), and the combinations of those (top-left, bottom-right,
+etc.). But positioning can also be customized down to the pixel level by
+providing an offset. The full format of the `tooltip-placement` attribute looks
+like this: `tooltip-placement="top-right -10x-15"` This is going to calculate
+the top-right position, then move the tooltip by -10px to the left and -15 off
+the top.
+
+Additionally, you can use `tooltip-position-fallback` which has the same format
+as `tooltip-placement` (including offsets). If the tooltip ends up off the
+screen after positioning using `tooltip-position`, the `tooltip-position-fallback`
+will be used instead.
 
 **Triggers**
 
@@ -65,4 +83,3 @@ methods are available:
   popupDelay: 0,
   appendToBody: false
   </pre>
-
