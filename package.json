@@ -1,8 +1,8 @@
 {
-  "author": "https://github.com/angular-ui/bootstrap/graphs/contributors",
+  "author": "https://github.com/deskfed/bootstrap/graphs/contributors",
   "name": "angular-ui-bootstrap",
-  "version": "0.11.0",
-  "homepage": "http://angular-ui.github.io/bootstrap/",
+  "version": "0.11.1-SNAPSHOT",
+  "homepage": "http://deskfed.github.io/bootstrap/",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
