@@ -233,6 +233,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             function createTooltip() {
+              var linkScope = scope;
               // There can only be one tooltip element per directive shown at once.
               if (tooltip) {
                 removeTooltip();
@@ -244,6 +245,10 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             function removeTooltip() {
               transitionTimeout = null;
               if (tooltip) {
+                if (createChildScope) {
+                  childScope.$destroy();
+                  childScope = null;
+                }
                 tooltip.remove();
                 tooltip = null;
               }
