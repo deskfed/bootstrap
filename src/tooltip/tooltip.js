@@ -119,7 +119,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var appendToBody = angular.isDefined( options.appendToBody ) ? options.appendToBody : false;
             var triggers = getTriggers( undefined );
             var hasEnableExp = angular.isDefined(attrs[prefix+'Enable']);
-            
+            var createChildScope = !!scope.tt_childScope;
+            var childScope = null;
+
             var positionTooltip = function () {
 
               var ttPosition = $position.positionElements(element, tooltip, scope.tt_placement, appendToBody, scope.tt_placementFallback);
@@ -228,11 +230,15 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             function createTooltip() {
+              var linkScope = scope;
               // There can only be one tooltip element per directive shown at once.
               if (tooltip) {
                 removeTooltip();
               }
-              tooltip = tooltipLinker(scope, function () {});
+              if (createChildScope) {
+                childScope = linkScope = scope.$new();
+              }
+              tooltip = tooltipLinker(linkScope, function () {});
 
               // Get contents rendered into the tooltip
               scope.$digest();
@@ -241,6 +247,10 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             function removeTooltip() {
               transitionTimeout = null;
               if (tooltip) {
+                if (createChildScope) {
+                  childScope.$destroy();
+                  childScope = null;
+                }
                 tooltip.remove();
                 tooltip = null;
               }
