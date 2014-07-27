@@ -1,3 +1,13 @@
+# 0.11.1 (2014-07-27)
+
+## Features
+
+- **position:** 
+  - position with offset. Also add fallback positioning. ([28795ddf](http://github.com/angular-ui/bootstrap/commit/28795ddf))  
+- **tooltip:** 
+  - Option to create new child scope on tooltip. ([19ae3098](http://github.com/angular-ui/bootstrap/commit/19ae3098))   
+
+
 # 0.11.0 (2014-05-01)
 
 ## Features
