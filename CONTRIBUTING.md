@@ -70,3 +70,10 @@ We are always looking for the quality contributions and will be happy to accept 
   * Switch branches to `gh-pages`.
   * From the `dist` folder, copy the `ui-bootstrap-xxx`, `index.html`, and `assets` files/folder to the root of the project. The `ui-bootstrap-xxx` file will not overwrite anything, but `index.html` and `assets` will.
   * `git push` to send changes to the server.
+* Updating our bootstrap-bower
+  * Copy the `ui-bootstrap-xxx.js` file into the bootstrap-bower project, naming the file `ui-bootstrap.js`.
+  * Update `bower.json` with the new version number.
+  * Commit and push.
+  * Create a corresponding tag number: `git tag 0.11.1`
+  * Push this tag: `git push origin 0.11.1`
+  * Update Agent v3 `bower.json` file to match the new version number.
