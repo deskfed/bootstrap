@@ -233,6 +233,8 @@ angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
 
   $scope.$on('$destroy', function() {
     scope.$destroy();
+    scope.focusToggleElement = angular.noop;
+    self.toggleElement = self.$element = null;
   });
 }])
 
