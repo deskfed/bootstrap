@@ -1,3 +1,92 @@
+# 0.13.10 (2015-07-27)
+
+
+## Bug Fixes
+
+- **modal:** 
+  - Assign css classes before appending to body ([e895fa6e](http://github.com/angular-ui/bootstrap/commit/e895fa6e))   
+
+# 0.13.9 (2015-04-14)
+
+
+## Bug Fixes
+
+- **position:** 
+  - Prevent bleeding off the right edge ([2a352d18](http://github.com/angular-ui/bootstrap/commit/2a352d18))   
+
+# 0.13.8 (2015-03-26)
+
+## Features
+
+- **tooltip:** 
+  - Parent scope bound variables for open and animation. ([657e71b3](http://github.com/angular-ui/bootstrap/commit/657e71b3))   
+
+
+# 0.13.7 (2015-03-26)
+
+## Features
+
+- **tooltip:** 
+  - Isolate changed to inherited scope. ([b52b62fd](http://github.com/angular-ui/bootstrap/commit/b52b62fd))   
+
+
+# 0.13.6 (2015-03-20)
+
+## Features
+
+- **tooltip:** 
+  - Prototypical scope creation for tooltip (optional). ([184ae660](http://github.com/angular-ui/bootstrap/commit/184ae660))   
+
+
+# 0.13.5 (2015-03-18)
+
+## Features
+
+- **tooltip:** 
+  - Add ability to pass parent scope values into tooltip. ([503f65bc](http://github.com/angular-ui/bootstrap/commit/503f65bc))   
+
+
+# 0.13.4 (2015-03-18)
+
+## Features
+
+- **modal:** 
+  - Make modal remove delay configurable ([959c5750](http://github.com/angular-ui/bootstrap/commit/959c5750))  
+- **tooltip:** 
+  - Add ability to open/close from 'outside' ([5b435658](http://github.com/angular-ui/bootstrap/commit/5b435658))   
+
+
+# 0.13.3 (2015-02-20)
+
+## Features
+
+- **modal:** 
+  - Make modal remove delay configurable ([959c5750](http://github.com/angular-ui/bootstrap/commit/959c5750))   
+
+## Bug Fixes
+
+- **tooltip:** 
+  - Fix tooltip ability to show in correct scenarios. ([348f7421](http://github.com/angular-ui/bootstrap/commit/348f7421))   
+
+# 0.13.0 (2015-01-28)
+
+## Features
+
+- **datepicker:** 
+  - Add ability to position datepicker popup. ([aaa6adfe](http://github.com/angular-ui/bootstrap/commit/aaa6adfe))  
+- **position:** 
+  - position with offset. Also add fallback positioning. ([6149ff39](http://github.com/angular-ui/bootstrap/commit/6149ff39))  
+- **tooltip:** 
+  - Option to create new child scope on tooltip. ([9d163c9d](http://github.com/angular-ui/bootstrap/commit/9d163c9d))  
+  - Add persist flag. ([96d25c12](http://github.com/angular-ui/bootstrap/commit/96d25c12))   
+
+## Bug Fixes
+
+- **dropdown:** 
+  - fix memory leak in DropdownController ([09610c8d](http://github.com/angular-ui/bootstrap/commit/09610c8d))  
+- **tooltip:** 
+  - Remove extraneous code. ([6ff175ef](http://github.com/angular-ui/bootstrap/commit/6ff175ef))   
+
 <a name="0.12.0"></a>
 # 0.12.0 (2014-11-16)
 
