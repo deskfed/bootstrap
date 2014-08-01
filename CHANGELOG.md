@@ -1,3 +1,11 @@
+# 0.11.2 (2014-08-01)
+
+
+## Bug Fixes
+
+- **dropdown:** 
+  - fix memory leak in DropdownController ([8473c357](http://github.com/angular-ui/bootstrap/commit/8473c357))   
+
 # 0.11.1 (2014-07-27)
 
 ## Features
