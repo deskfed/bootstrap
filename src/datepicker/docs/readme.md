@@ -99,6 +99,14 @@ Specific settings for the `datepicker-popup`, that can globally configured throu
  	_(Default: 'yyyy-MM-dd')_ :
  	The format for displayed dates.
 
+ * `datepicker-popup-placement`
+ 	_(Default: 'bottom-left')_ :
+ 	Placement of the calendar popup.
+
+ * `datepicker-popup-placement-fallback`
+ 	_(Default: 'top-left')_ :
+ 	Fallback placement for calendar popup. If the primary ends up off screen.
+
  * `show-button-bar`
  	_(Default: true)_ :
  	Whether to display a button bar underneath the datepicker.
