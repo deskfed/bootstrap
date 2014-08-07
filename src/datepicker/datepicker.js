@@ -513,6 +513,8 @@ function ($compile, $parse, $document, $rootScope, $position, dateFilter, datePa
           appendToBody = angular.isDefined(attrs.datepickerAppendToBody) ? scope.$parent.$eval(attrs.datepickerAppendToBody) : datepickerPopupConfig.appendToBody,
           onOpenFocus = angular.isDefined(attrs.onOpenFocus) ? scope.$parent.$eval(attrs.onOpenFocus) : datepickerPopupConfig.onOpenFocus,
           datepickerPopupTemplateUrl = angular.isDefined(attrs.datepickerPopupTemplateUrl) ? attrs.datepickerPopupTemplateUrl : datepickerPopupConfig.datepickerPopupTemplateUrl,
+          datepickerPopupPlacement = (angular.isDefined(attrs.datepickerPopupPlacement) ? attrs.datepickerPopupPlacement : datepickerPopupConfig.datepickerPopupPlacement) || 'bottom-left',
+          datepickerPopupPlacementFallback = (angular.isDefined(attrs.datepickerPopupPlacementFallback) ? attrs.datepickerPopupPlacementFallback : datepickerPopupConfig.datepickerPopupPlacementFallback) || 'top-left';
           datepickerTemplateUrl = angular.isDefined(attrs.datepickerTemplateUrl) ? attrs.datepickerTemplateUrl : datepickerPopupConfig.datepickerTemplateUrl;
 
       scope.showButtonBar = angular.isDefined(attrs.showButtonBar) ? scope.$parent.$eval(attrs.showButtonBar) : datepickerPopupConfig.showButtonBar;
@@ -733,13 +735,14 @@ function ($compile, $parse, $document, $rootScope, $position, dateFilter, datePa
 
       scope.$watch('isOpen', function(value) {
         if (value) {
-          scope.position = appendToBody ? $position.offset(element) : $position.position(element);
-          scope.position.top = scope.position.top + element.prop('offsetHeight');
-
+          // Position offscreen initially
+          scope.position = {top: -10000, left: -10000};
+          // Timeout so that we have a visible element before working out positioning
           $timeout(function() {
             if (onOpenFocus) {
               scope.$broadcast('datepicker.focus');
             }
+            scope.position = $position.positionElements(element, popupEl, datepickerPopupPlacement, appendToBody, datepickerPopupPlacementFallback);
             $document.bind('click', documentClickBind);
           }, 0, false);
         } else {
