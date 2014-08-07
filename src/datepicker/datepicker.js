@@ -430,8 +430,8 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   showButtonBar: true
 })
 
-.directive('datepickerPopup', ['$compile', '$parse', '$document', '$position', 'dateFilter', 'dateParser', 'datepickerPopupConfig',
-function ($compile, $parse, $document, $position, dateFilter, dateParser, datepickerPopupConfig) {
+.directive('datepickerPopup', ['$compile', '$parse', '$document', '$position', '$timeout', 'dateFilter', 'dateParser', 'datepickerPopupConfig',
+function ($compile, $parse, $document, $position, $timeout, dateFilter, dateParser, datepickerPopupConfig) {
   return {
     restrict: 'EA',
     require: 'ngModel',
@@ -445,7 +445,9 @@ function ($compile, $parse, $document, $position, dateFilter, dateParser, datepi
     link: function(scope, element, attrs, ngModel) {
       var dateFormat,
           closeOnDateSelection = angular.isDefined(attrs.closeOnDateSelection) ? scope.$parent.$eval(attrs.closeOnDateSelection) : datepickerPopupConfig.closeOnDateSelection,
-          appendToBody = angular.isDefined(attrs.datepickerAppendToBody) ? scope.$parent.$eval(attrs.datepickerAppendToBody) : datepickerPopupConfig.appendToBody;
+          appendToBody = angular.isDefined(attrs.datepickerAppendToBody) ? scope.$parent.$eval(attrs.datepickerAppendToBody) : datepickerPopupConfig.appendToBody,
+          datepickerPopupPlacement = (angular.isDefined(attrs.datepickerPopupPlacement) ? attrs.datepickerPopupPlacement : datepickerPopupConfig.datepickerPopupPlacement) || 'bottom-left',
+          datepickerPopupPlacementFallback = (angular.isDefined(attrs.datepickerPopupPlacementFallback) ? attrs.datepickerPopupPlacementFallback : datepickerPopupConfig.datepickerPopupPlacementFallback) || 'top-left';
 
       scope.showButtonBar = angular.isDefined(attrs.showButtonBar) ? scope.$parent.$eval(attrs.showButtonBar) : datepickerPopupConfig.showButtonBar;
 
@@ -576,9 +578,13 @@ function ($compile, $parse, $document, $position, dateFilter, dateParser, datepi
 
       scope.$watch('isOpen', function(value) {
         if (value) {
-          scope.$broadcast('datepicker.focus');
-          scope.position = appendToBody ? $position.offset(element) : $position.position(element);
-          scope.position.top = scope.position.top + element.prop('offsetHeight');
+          // Position offscreen initially
+          scope.position = {top: -10000, left: -10000};
+          // Timeout so that we have a visible element before working out positioning
+          $timeout(function () {
+            scope.$broadcast('datepicker.focus');
+            scope.position = $position.positionElements(element, popupEl, datepickerPopupPlacement, appendToBody, datepickerPopupPlacementFallback);
+          });
 
           $document.bind('click', documentClickBind);
         } else {
