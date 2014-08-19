@@ -226,6 +226,9 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
           backdropScope = $rootScope.$new(true);
           backdropScope.index = currBackdropIndex;
           backdropDomEl = $compile('<div modal-backdrop></div>')(backdropScope);
+          backdropDomEl.attr('backdrop-class', modal.backdropClass);
+          backdropDomEl.addClass(modal.backdropClass);
+          backdropDomEl = $compile('<div modal-backdrop></div>')(backdropScope);
           body.append(backdropDomEl);
         }
 
@@ -359,6 +362,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
                 deferred: modalResultDeferred,
                 content: tplAndVars[0],
                 backdrop: modalOptions.backdrop,
+                backdropClass: modalOptions.backdropClass,
                 keyboard: modalOptions.keyboard,
                 windowClass: modalOptions.windowClass,
                 windowTemplateUrl: modalOptions.windowTemplateUrl,
