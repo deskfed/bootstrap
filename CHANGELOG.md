@@ -1,3 +1,11 @@
+# 0.11.4 (2014-08-19)
+
+## Features
+
+- **modal:** 
+  - adding support for backdrop class ([29f2a06f](http://github.com/angular-ui/bootstrap/commit/29f2a06f))   
+
+
 # 0.11.3 (2014-08-07)
 
 
