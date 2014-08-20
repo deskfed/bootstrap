@@ -1,3 +1,11 @@
+# 0.11.5 (2014-08-20)
+
+## Features
+
+- **tooltip:** 
+  - Add persist flag. ([89a3a054](http://github.com/angular-ui/bootstrap/commit/89a3a054))   
+
+
 # 0.11.4 (2014-08-19)
 
 ## Features
