@@ -1,3 +1,4 @@
+
 /**
  * The following features are still outstanding: animation as a
  * function, placement as a function, inside, support for more triggers than
@@ -15,7 +16,8 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
     placement: 'top',
     animation: true,
     popupDelay: 0,
-    useContentExp: false
+    useContentExp: false,
+    persist: false
   };
 
   // Default hide triggers for each show trigger
@@ -107,6 +109,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
           'placement="'+startSym+'placement'+endSym+'" '+
           'popup-class="'+startSym+'popupClass'+endSym+'" '+
           'placement-fallback="'+startSym+'placementFallback'+endSym+'" '+
+          'persist="persist" '+
           'animation="animation" '+
           'is-open="isOpen"'+
           'origin-scope="origScope" '+
@@ -132,7 +135,6 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var positionTooltip = function () {
               if (!tooltip) { return; }
 
-              var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody);
               var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, ttScope.placementFallback);
               ttPosition.top += 'px';
               ttPosition.left += 'px';
@@ -279,10 +281,6 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             function removeTooltip() {
               transitionTimeout = null;
               if (tooltip) {
-                if (createChildScope) {
-                  childScope.$destroy();
-                  childScope = null;
-                }
                 tooltip.remove();
                 tooltip = null;
               }
@@ -391,6 +389,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var animation = scope.$eval(attrs[prefix + 'Animation']);
             ttScope.animation = angular.isDefined(animation) ? !!animation : options.animation;
 
+            var persist = scope.$eval(attrs[prefix + 'Persist']);
+            ttScope.persist = angular.isDefined(persist) ? !!persist : options.persist;
+
             var appendToBodyVal = scope.$eval(attrs[prefix + 'AppendToBody']);
             appendToBody = angular.isDefined(appendToBodyVal) ? appendToBodyVal : appendToBody;
 
@@ -399,7 +400,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             // by the change.
             if ( appendToBody ) {
               scope.$on('$locationChangeSuccess', function closeTooltipOnLocationChangeSuccess () {
-              if ( ttScope.isOpen ) {
+              if ( ttScope.isOpen && !ttScope.persist ) {
                 hide();
               }
             });
@@ -514,7 +515,7 @@ function ($animate ,  $sce ,  $compile ,  $templateRequest) {
   return {
     restrict: 'EA',
     replace: true,
-    scope: { content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&' },
+    scope: { content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&', persist: '&' },
     templateUrl: 'template/tooltip/tooltip-popup.html'
   };
 })
@@ -561,7 +562,7 @@ Deprecated
   return {
     restrict: 'EA',
     replace: true,
-    scope: { content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&' },
+    scope: { content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&', persist: '&' },
     templateUrl: 'template/tooltip/tooltip-html-unsafe-popup.html'
   };
 })
