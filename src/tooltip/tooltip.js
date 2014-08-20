@@ -1,3 +1,4 @@
+
 /**
  * The following features are still outstanding: animation as a
  * function, placement as a function, inside, support for more triggers than
@@ -14,6 +15,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   var defaultOptions = {
     placement: 'top',
     animation: true,
+    persist: false,
     popupDelay: 0
   };
 
@@ -101,6 +103,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
           'content="'+startSym+'tt_content'+endSym+'" '+
           'placement="'+startSym+'tt_placement'+endSym+'" '+
           'placement-fallback="'+startSym+'tt_placementFallback'+endSym+'" '+
+          'persist="tt_persist" '+
           'animation="tt_animation" '+
           'is-open="tt_isOpen"'+
           '>'+
@@ -305,6 +308,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var animation = scope.$eval(attrs[prefix + 'Animation']);
             scope.tt_animation = angular.isDefined(animation) ? !!animation : options.animation;
 
+            var persist = scope.$eval(attrs[prefix + 'Persist']);
+            scope.tt_persist = angular.isDefined(persist) ? !!persist : options.persist;
+
             attrs.$observe( prefix+'AppendToBody', function ( val ) {
               appendToBody = angular.isDefined( val ) ? $parse( val )( scope ) : appendToBody;
             });
@@ -314,7 +320,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             // by the change.
             if ( appendToBody ) {
               scope.$on('$locationChangeSuccess', function closeTooltipOnLocationChangeSuccess () {
-              if ( scope.tt_isOpen ) {
+              if ( scope.tt_isOpen && !scope.persist ) {
                 hide();
               }
             });
@@ -338,7 +344,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   return {
     restrict: 'EA',
     replace: true,
-    scope: { content: '@', placement: '@', animation: '&', isOpen: '&' },
+    scope: { content: '@', placement: '@', animation: '&', isOpen: '&', persist: '&' },
     templateUrl: 'template/tooltip/tooltip-popup.html'
   };
 })
@@ -351,7 +357,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   return {
     restrict: 'EA',
     replace: true,
-    scope: { content: '@', placement: '@', animation: '&', isOpen: '&' },
+    scope: { content: '@', placement: '@', animation: '&', isOpen: '&', persist: '&' },
     templateUrl: 'template/tooltip/tooltip-html-unsafe-popup.html'
   };
 })
