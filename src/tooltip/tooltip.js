@@ -320,7 +320,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             // by the change.
             if ( appendToBody ) {
               scope.$on('$locationChangeSuccess', function closeTooltipOnLocationChangeSuccess () {
-              if ( scope.tt_isOpen && !scope.persist ) {
+              if ( scope.tt_isOpen && !scope.tt_persist ) {
                 hide();
               }
             });
