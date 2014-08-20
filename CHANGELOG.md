@@ -1,3 +1,11 @@
+# 0.11.6 (2014-08-20)
+
+
+## Bug Fixes
+
+- **tooltip:** 
+  - Fix tt_persist ([d209186e](http://github.com/angular-ui/bootstrap/commit/d209186e))   
+
 # 0.11.5 (2014-08-20)
 
 ## Features
