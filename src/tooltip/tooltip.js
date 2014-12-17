@@ -126,7 +126,6 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
 
             var positionTooltip = function () {
 
-              var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody);
               var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, ttScope.placementFallback);
               ttPosition.top += 'px';
               ttPosition.left += 'px';
@@ -248,10 +247,6 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             function removeTooltip() {
               transitionTimeout = null;
               if (tooltip) {
-                if (createChildScope) {
-                  childScope.$destroy();
-                  childScope = null;
-                }
                 tooltip.remove();
                 tooltip = null;
               }
