@@ -1,3 +1,22 @@
+# 0.13.0 (2015-01-28)
+
+## Features
+
+- **datepicker:** 
+  - Add ability to position datepicker popup. ([aaa6adfe](http://github.com/angular-ui/bootstrap/commit/aaa6adfe))  
+- **position:** 
+  - position with offset. Also add fallback positioning. ([6149ff39](http://github.com/angular-ui/bootstrap/commit/6149ff39))  
+- **tooltip:** 
+  - Option to create new child scope on tooltip. ([9d163c9d](http://github.com/angular-ui/bootstrap/commit/9d163c9d))  
+  - Add persist flag. ([96d25c12](http://github.com/angular-ui/bootstrap/commit/96d25c12))   
+
+## Bug Fixes
+
+- **dropdown:** 
+  - fix memory leak in DropdownController ([09610c8d](http://github.com/angular-ui/bootstrap/commit/09610c8d))  
+- **tooltip:** 
+  - Remove extraneous code. ([6ff175ef](http://github.com/angular-ui/bootstrap/commit/6ff175ef))   
+
 <a name="0.12.0"></a>
 # 0.12.0 (2014-11-16)
 
