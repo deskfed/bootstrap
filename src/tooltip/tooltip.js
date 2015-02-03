@@ -185,7 +185,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
               }
 
               // Don't show empty tooltips.
-              if ( ! ttScope.content ) {
+              if ( attrs[type] && !ttScope.content ) {
                 return angular.noop;
               }
 
