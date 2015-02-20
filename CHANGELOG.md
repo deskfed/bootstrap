@@ -1,3 +1,15 @@
+# 0.13.3 (2015-02-20)
+
+## Features
+
+- **modal:** 
+  - Make modal remove delay configurable ([959c5750](http://github.com/angular-ui/bootstrap/commit/959c5750))   
+
+## Bug Fixes
+
+- **tooltip:** 
+  - Fix tooltip ability to show in correct scenarios. ([348f7421](http://github.com/angular-ui/bootstrap/commit/348f7421))   
+
 # 0.13.0 (2015-01-28)
 
 ## Features
