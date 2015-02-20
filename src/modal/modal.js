@@ -113,7 +113,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
           if (modal && modal.value.backdrop && modal.value.backdrop != 'static' && (evt.target === evt.currentTarget)) {
             evt.preventDefault();
             evt.stopPropagation();
-            $modalStack.dismiss(modal.key, 'backdrop click');
+            $modalStack.dismiss(modal.key, 'backdrop click', modal.value);
           }
         };
       }
@@ -157,7 +157,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         }
       });
 
-      function removeModalWindow(modalInstance) {
+      function removeModalWindow(modalInstance, modalOptions) {
 
         var body = $document.find('body').eq(0);
         var modalWindow = openedWindows.get(modalInstance).value;
@@ -166,7 +166,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         openedWindows.remove(modalInstance);
 
         //remove window DOM element
-        removeAfterAnimate(modalWindow.modalDomEl, modalWindow.modalScope, 300, function() {
+        removeAfterAnimate(modalWindow.modalDomEl, modalWindow.modalScope, modalOptions.removeDelay, function() {
           modalWindow.modalScope.$destroy();
           body.toggleClass(OPENED_MODAL_CLASS, openedWindows.length() > 0);
           checkRemoveBackdrop();
@@ -226,7 +226,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
           if (modal && modal.value.keyboard) {
             evt.preventDefault();
             $rootScope.$apply(function () {
-              $modalStack.dismiss(modal.key, 'escape key press');
+              $modalStack.dismiss(modal.key, 'escape key press', modal.value);
             });
           }
         }
@@ -238,7 +238,8 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
           deferred: modal.deferred,
           modalScope: modal.scope,
           backdrop: modal.backdrop,
-          keyboard: modal.keyboard
+          keyboard: modal.keyboard,
+          removeDelay: modal.removeDelay
         });
 
         var body = $document.find('body').eq(0),
@@ -261,6 +262,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
           'index': openedWindows.length() - 1,
           'animate': 'animate'
         }).html(modal.content);
+        angularDomEl.addClass(modal.windowClass || '');
 
         var modalDomEl = $compile(angularDomEl)(modal.scope);
         openedWindows.top().value.modalDomEl = modalDomEl;
@@ -268,26 +270,26 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         body.addClass(OPENED_MODAL_CLASS);
       };
 
-      $modalStack.close = function (modalInstance, result) {
+      $modalStack.close = function (modalInstance, result, modalOptions) {
         var modalWindow = openedWindows.get(modalInstance);
         if (modalWindow) {
           modalWindow.value.deferred.resolve(result);
-          removeModalWindow(modalInstance);
+          removeModalWindow(modalInstance, modalOptions);
         }
       };
 
-      $modalStack.dismiss = function (modalInstance, reason) {
+      $modalStack.dismiss = function (modalInstance, reason, modalOptions) {
         var modalWindow = openedWindows.get(modalInstance);
         if (modalWindow) {
           modalWindow.value.deferred.reject(reason);
-          removeModalWindow(modalInstance);
+          removeModalWindow(modalInstance, modalOptions);
         }
       };
 
       $modalStack.dismissAll = function (reason) {
         var topModal = this.getTop();
         while (topModal) {
-          this.dismiss(topModal.key, reason);
+          this.dismiss(topModal.key, reason, topModal.value);
           topModal = this.getTop();
         }
       };
@@ -339,16 +341,17 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
               result: modalResultDeferred.promise,
               opened: modalOpenedDeferred.promise,
               close: function (result) {
-                $modalStack.close(modalInstance, result);
+                $modalStack.close(modalInstance, result, modalOptions);
               },
               dismiss: function (reason) {
-                $modalStack.dismiss(modalInstance, reason);
+                $modalStack.dismiss(modalInstance, reason, modalOptions);
               }
             };
 
             //merge and clean up options
             modalOptions = angular.extend({}, $modalProvider.options, modalOptions);
             modalOptions.resolve = modalOptions.resolve || {};
+            modalOptions.removeDelay = !isNaN(modalOptions.removeDelay) ? modalOptions.removeDelay : 300;
 
             //verify options
             if (!modalOptions.template && !modalOptions.templateUrl) {
@@ -391,7 +394,8 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
                 backdropClass: modalOptions.backdropClass,
                 windowClass: modalOptions.windowClass,
                 windowTemplateUrl: modalOptions.windowTemplateUrl,
-                size: modalOptions.size
+                size: modalOptions.size,
+                removeDelay: modalOptions.removeDelay
               });
 
             }, function resolveError(reason) {
