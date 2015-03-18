@@ -122,7 +122,10 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var appendToBody = angular.isDefined( options.appendToBody ) ? options.appendToBody : false;
             var triggers = getTriggers( undefined );
             var hasEnableExp = angular.isDefined(attrs[prefix+'Enable']);
-            var ttScope = scope.$new(true);
+            var ttScope = scope.$new();
+            
+            var popoverOpen = attrs[prefix+'Open'];
+            var popoverAnimation = attrs[prefix+'Animation'];
 
             var positionTooltip = function () {
 
@@ -137,6 +140,14 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             // By default, the tooltip is not open.
             // TODO add ability to start tooltip opened
             ttScope.isOpen = false;
+            if (popoverOpen) {
+              scope[popoverOpen] = false;
+            }
+
+            // Wire up toggle/open/close
+            ttScope.toggleTooltip = toggleTooltipBind;
+            ttScope.hideTooltip = hideTooltipBind;
+            ttScope.showTooltip = showTooltipBind;
 
             function toggleTooltipBind () {
               if ( ! ttScope.isOpen ) {
@@ -167,9 +178,14 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             function hideTooltipBind () {
-              scope.$apply(function () {
+              // We can now call this function from outside, so need to check for current digest cycle.
+              if (!scope.$$phase) {
+                scope.$apply(function () {
+                  hide();
+                });
+              } else {
                 hide();
-              });
+              }
             }
 
             // Show the tooltip popup element.
@@ -206,8 +222,13 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
 
               // And show the tooltip.
               ttScope.isOpen = true;
-              ttScope.$digest(); // digest required as $apply is not called
-
+              if (popoverOpen) {
+                scope[popoverOpen] = true;
+              }
+              // We can now call this function from outside, so need to check for current digest cycle.
+              if (!scope.$$phase) {
+                ttScope.$digest(); // digest required as $apply is not called
+              }
               // Return positioning function as promise callback for correct
               // positioning after draw.
               return positionTooltip;
@@ -217,6 +238,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             function hide() {
               // First things first: we don't show it anymore.
               ttScope.isOpen = false;
+              if (popoverOpen) {
+                scope[popoverOpen] = false;
+              }
 
               //if tooltip is going to be shown after delay, we must cancel this
               $timeout.cancel( popupTimeout );
@@ -315,6 +339,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
 
             var animation = scope.$eval(attrs[prefix + 'Animation']);
             ttScope.animation = angular.isDefined(animation) ? !!animation : options.animation;
+            if (popoverAnimation) {
+              scope[popoverAnimation] = ttScope.animation;
+            }
 
             var persist = scope.$eval(attrs[prefix + 'Persist']);
             ttScope.persist = angular.isDefined(persist) ? !!persist : options.persist;
