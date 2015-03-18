@@ -1,3 +1,13 @@
+# 0.13.4 (2015-03-18)
+
+## Features
+
+- **modal:** 
+  - Make modal remove delay configurable ([959c5750](http://github.com/angular-ui/bootstrap/commit/959c5750))  
+- **tooltip:** 
+  - Add ability to open/close from 'outside' ([5b435658](http://github.com/angular-ui/bootstrap/commit/5b435658))   
+
+
 # 0.13.3 (2015-02-20)
 
 ## Features
