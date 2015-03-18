@@ -124,6 +124,14 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var hasEnableExp = angular.isDefined(attrs[prefix+'Enable']);
             var ttScope = scope.$new(true);
 
+            // Sync up scope variables as needed
+            if (attrs.syncScope) {
+              var syncItems = scope.$eval(attrs.syncScope);
+              syncItems.forEach(function (item) {
+                ttScope[item] = scope[item];
+              });
+            }
+
             var positionTooltip = function () {
 
               var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, ttScope.placementFallback);
