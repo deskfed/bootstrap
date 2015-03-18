@@ -1,3 +1,11 @@
+# 0.13.5 (2015-03-18)
+
+## Features
+
+- **tooltip:** 
+  - Add ability to pass parent scope values into tooltip. ([503f65bc](http://github.com/angular-ui/bootstrap/commit/503f65bc))   
+
+
 # 0.13.4 (2015-03-18)
 
 ## Features
