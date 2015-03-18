@@ -138,6 +138,11 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             // TODO add ability to start tooltip opened
             ttScope.isOpen = false;
 
+            // Wire up toggle/open/close
+            ttScope.toggleTooltip = toggleTooltipBind;
+            ttScope.hideTooltip = hideTooltipBind;
+            ttScope.showTooltip = showTooltipBind;
+
             function toggleTooltipBind () {
               if ( ! ttScope.isOpen ) {
                 showTooltipBind();
@@ -167,9 +172,14 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             function hideTooltipBind () {
-              scope.$apply(function () {
+              // We can now call this function from outside, so need to check for current digest cycle.
+              if (!scope.$$phase) {
+                scope.$apply(function () {
+                  hide();
+                });
+              } else {
                 hide();
-              });
+              }
             }
 
             // Show the tooltip popup element.
@@ -206,8 +216,10 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
 
               // And show the tooltip.
               ttScope.isOpen = true;
-              ttScope.$digest(); // digest required as $apply is not called
-
+              // We can now call this function from outside, so need to check for current digest cycle.
+              if (!scope.$$phase) {
+                ttScope.$digest(); // digest required as $apply is not called
+              }
               // Return positioning function as promise callback for correct
               // positioning after draw.
               return positionTooltip;
