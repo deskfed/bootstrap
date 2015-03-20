@@ -1,3 +1,11 @@
+# 0.13.6 (2015-03-20)
+
+## Features
+
+- **tooltip:** 
+  - Prototypical scope creation for tooltip (optional). ([184ae660](http://github.com/angular-ui/bootstrap/commit/184ae660))   
+
+
 # 0.13.5 (2015-03-18)
 
 ## Features
