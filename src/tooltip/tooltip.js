@@ -122,14 +122,11 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var appendToBody = angular.isDefined( options.appendToBody ) ? options.appendToBody : false;
             var triggers = getTriggers( undefined );
             var hasEnableExp = angular.isDefined(attrs[prefix+'Enable']);
-            var ttScope = scope.$new(true);
-
-            // Sync up scope variables as needed
-            if (attrs.syncScope) {
-              var syncItems = scope.$eval(attrs.syncScope);
-              syncItems.forEach(function (item) {
-                ttScope[item] = scope[item];
-              });
+            var ttScope = null;
+            if (attrs[prefix+'Extend']) {
+              ttScope = scope.$new();
+            } else {
+              ttScope = scope.$new(true);
             }
 
             var positionTooltip = function () {
