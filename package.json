@@ -1,7 +1,7 @@
 {
   "author": "https://github.com/deskfed/bootstrap/graphs/contributors",
   "name": "angular-ui-bootstrap",
-  "version": "0.13.7",
+  "version": "0.13.8",
   "homepage": "http://deskfed.github.io/bootstrap/",
   "dependencies": {},
   "devDependencies": {

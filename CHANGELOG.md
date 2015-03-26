@@ -1,3 +1,11 @@
+# 0.13.8 (2015-03-26)
+
+## Features
+
+- **tooltip:** 
+  - Parent scope bound variables for open and animation. ([657e71b3](http://github.com/angular-ui/bootstrap/commit/657e71b3))   
+
+
 # 0.13.7 (2015-03-26)
 
 ## Features
