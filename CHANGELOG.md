@@ -1,3 +1,11 @@
+# 0.13.7 (2015-03-26)
+
+## Features
+
+- **tooltip:** 
+  - Isolate changed to inherited scope. ([b52b62fd](http://github.com/angular-ui/bootstrap/commit/b52b62fd))   
+
+
 # 0.13.6 (2015-03-20)
 
 ## Features
