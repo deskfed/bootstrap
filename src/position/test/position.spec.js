@@ -135,15 +135,15 @@ describe('position elements', function () {
 
       describe('with combination coordinates', function () {
         it('should fallback to positionFallback if top is out of bounds', function () {
-          expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right')).toBePositionedAt(30, 60);
+          expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right')).toBePositionedAt(30, 0);
         });
         it('should fallback to positionFallback if bottom is out of bounds', function () {
-          expect($position.positionElements({}, new TargetElMock(100, 10), 'top-right', false, 'bottom-left')).toBePositionedAt(60, 40);
+          expect($position.positionElements({}, new TargetElMock(100, 10), 'top-right', false, 'bottom-left')).toBePositionedAt(60, 0);
         });
       });
       describe('should fallback with offset applied', function () {
         it('should fallback to positionFallback if top is out of bounds', function () {
-          expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right 1x1')).toBePositionedAt(31, 61);
+          expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right 1x1')).toBePositionedAt(31, 0);
         });
       });
     });

@@ -139,13 +139,14 @@ angular.module('ui.bootstrap.position', [])
             case 'bottom':
               targetElPos = {
                 top: shiftHeight[pos0]() + off1,
-                left: shiftWidth[pos1]() + off0
+                // Ensure that the element never bleeds off the right edge
+                left: Math.min(shiftWidth[pos1]() + off0,$window.innerWidth - targetElWidth)
               };
               break;
             default:
               targetElPos = {
                 top: hostElPos.top - targetElHeight + off1,
-                left: shiftWidth[pos1]() + off0
+                left: Math.min(shiftWidth[pos1]() + off0,$window.innerWidth - targetElWidth)
               };
               break;
           }
@@ -158,7 +159,7 @@ angular.module('ui.bootstrap.position', [])
               // If we are positioning at the top
               (positionStr.match(/top/) || !positionStr /* 'top' is default */)
             ) || (
-              // BOTOM
+              // BOTTOM
               ((hostElPos.top + hostElPos.height + targetElHeight) > $window.innerHeight) &&
               positionStr.match(/bottom/)
             ) || (
