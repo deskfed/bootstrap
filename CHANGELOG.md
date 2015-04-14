@@ -1,3 +1,11 @@
+# 0.13.9 (2015-04-14)
+
+
+## Bug Fixes
+
+- **position:** 
+  - Prevent bleeding off the right edge ([2a352d18](http://github.com/angular-ui/bootstrap/commit/2a352d18))   
+
 # 0.13.8 (2015-03-26)
 
 ## Features
