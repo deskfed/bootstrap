@@ -262,6 +262,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
           'index': openedWindows.length() - 1,
           'animate': 'animate'
         }).html(modal.content);
+        angularDomEl.addClass(modal.windowClass || '');
 
         var modalDomEl = $compile(angularDomEl)(modal.scope);
         openedWindows.top().value.modalDomEl = modalDomEl;
