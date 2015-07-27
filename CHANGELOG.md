@@ -1,3 +1,11 @@
+# 0.13.10 (2015-07-27)
+
+
+## Bug Fixes
+
+- **modal:** 
+  - Assign css classes before appending to body ([e895fa6e](http://github.com/angular-ui/bootstrap/commit/e895fa6e))   
+
 # 0.13.9 (2015-04-14)
 
 
