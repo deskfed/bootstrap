@@ -224,7 +224,12 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               cancelHide();
 
               // Don't show empty tooltips.
-              if (!ttScope.content) {
+              // CUSTOMIZATION: If ttType isn't in the attributes, ttScope.content may not be defined.
+              // This is for extensions such as dsPopover where we are not using the "content" attribute
+              // so ttScope.content will never be defined. ttType in attrs guarantees that if the 
+              // directive is used per the UI Bootstrap documentation, it will still work, but when 
+              // used through an extension such as dsPopover, it will still work.
+              if (!ttScope.content && ttType in attrs) {
                 return angular.noop;
               }
 
