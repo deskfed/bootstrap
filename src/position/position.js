@@ -79,72 +79,104 @@ angular.module('ui.bootstrap.position', [])
       /**
        * Provides coordinates for the targetEl in relation to hostEl
        */
-      positionElements: function(hostEl, targetEl, positionStr, appendToBody) {
-        var positionStrParts = positionStr.split('-');
-        var pos0 = positionStrParts[0], pos1 = positionStrParts[1] || 'center';
+      positionElements: function(hostEl, targetEl, positionStr, appendToBody, positionFallbackStr) {
 
-        var hostElPos,
-          targetElWidth,
-          targetElHeight,
-          targetElPos;
+        function doPositioning(hostEl, targetEl, positionStr, appendToBody) {
+          var splitPositionStr = positionStr.split(' ');
+          var positionStrParts = splitPositionStr[0].split('-');
+          var offsetStrParts = (splitPositionStr[1] || '').split('x');
+          var pos0 = positionStrParts[0], pos1 = positionStrParts[1] || 'center';
+          var off0 = parseInt((offsetStrParts[0] || 0), 10), off1 = parseInt((offsetStrParts[1] || 0), 10);
 
-        hostElPos = appendToBody ? this.offset(hostEl) : this.position(hostEl);
+          var hostElPos,
+            targetElWidth,
+            targetElHeight,
+            targetElPos;
 
-        targetElWidth = targetEl.prop('offsetWidth');
-        targetElHeight = targetEl.prop('offsetHeight');
+          hostElPos = appendToBody ? this.offset(hostEl) : this.position(hostEl);
 
-        var shiftWidth = {
-          center: function() {
-            return hostElPos.left + hostElPos.width / 2 - targetElWidth / 2;
-          },
-          left: function() {
-            return hostElPos.left;
-          },
-          right: function() {
-            return hostElPos.left + hostElPos.width;
+          targetElWidth = targetEl.prop('offsetWidth');
+          targetElHeight = targetEl.prop('offsetHeight');
+
+          var shiftWidth = {
+            center: function() {
+              return hostElPos.left + hostElPos.width / 2 - targetElWidth / 2;
+            },
+            left: function() {
+              return hostElPos.left;
+            },
+            right: function() {
+              return hostElPos.left + hostElPos.width;
+            }
+          };
+
+          var shiftHeight = {
+            center: function() {
+              return hostElPos.top + hostElPos.height / 2 - targetElHeight / 2;
+            },
+            top: function() {
+              return hostElPos.top;
+            },
+            bottom: function() {
+              return hostElPos.top + hostElPos.height;
+            }
+          };
+
+          switch (pos0) {
+            case 'right':
+              targetElPos = {
+                top: shiftHeight[pos1]() + off1,
+                left: shiftWidth[pos0]() + off0
+              };
+              break;
+            case 'left':
+              targetElPos = {
+                top: shiftHeight[pos1]() + off1,
+                left: hostElPos.left - targetElWidth + off0
+              };
+              break;
+            case 'bottom':
+              targetElPos = {
+                top: shiftHeight[pos0]() + off1,
+                left: Math.min(shiftWidth[pos1]() + off0,$window.innerWidth - targetElWidth)
+              };
+              break;
+            default:
+              targetElPos = {
+                top: hostElPos.top - targetElHeight,
+                left: Math.min(shiftWidth[pos1]() + off0,$window.innerWidth - targetElWidth)
+              };
+              break;
           }
-        };
 
-        var shiftHeight = {
-          center: function() {
-            return hostElPos.top + hostElPos.height / 2 - targetElHeight / 2;
-          },
-          top: function() {
-            return hostElPos.top;
-          },
-          bottom: function() {
-            return hostElPos.top + hostElPos.height;
+          if (positionFallbackStr && (
+            // TOP
+            (
+              // Popover it outside the top of the containing element
+              ((hostElPos.top - targetElHeight) < 0) &&
+              // If we are positioning at the top
+              (positionStr.match(/top/) || !positionStr /* 'top' is default */)
+            ) || (
+              // BOTTOM
+              ((hostElPos.top + hostElPos.height + targetElHeight) > $window.innerHeight) &&
+              positionStr.match(/bottom/)
+            ) || (
+              // LEFT
+              ((hostElPos.left - targetElWidth) < 0) &&
+              positionStr.match(/left/)
+            ) || (
+              // RIGHT
+              ((hostElPos.left + hostElPos.width + targetElWidth) > $window.innerWidth) &&
+              positionStr.match(/right/)
+            )
+          )) {
+            return doPositioning.call(this, hostEl, targetEl, positionFallbackStr, appendToBody);
           }
-        };
 
-        switch (pos0) {
-          case 'right':
-            targetElPos = {
-              top: shiftHeight[pos1](),
-              left: shiftWidth[pos0]()
-            };
-            break;
-          case 'left':
-            targetElPos = {
-              top: shiftHeight[pos1](),
-              left: hostElPos.left - targetElWidth
-            };
-            break;
-          case 'bottom':
-            targetElPos = {
-              top: shiftHeight[pos0](),
-              left: shiftWidth[pos1]()
-            };
-            break;
-          default:
-            targetElPos = {
-              top: hostElPos.top - targetElHeight,
-              left: shiftWidth[pos1]()
-            };
-            break;
+          return targetElPos;
         }
 
-        return targetElPos;
+        return doPositioning.apply(this, arguments);
       }
     };
   }]);
