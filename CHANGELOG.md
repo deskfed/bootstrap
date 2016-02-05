@@ -1,3 +1,13 @@
+# 0.13.11 (2016-02-04)
+
+
+## Bug Fixes
+
+- **modal:** 
+  - Assign css classes before appending to body ([e895fa6e](http://github.com/angular-ui/bootstrap/commit/e895fa6e))  
+- **position:** 
+  - account for offset values in fallback calculation ([0f669bcf](http://github.com/angular-ui/bootstrap/commit/0f669bcf))   
+
 # 0.13.10 (2015-07-27)
 
 

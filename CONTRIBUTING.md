@@ -9,7 +9,7 @@ StackOverflow is a much better place to ask questions since:
 * questions and answers stay available for public viewing so your question / answer might help someone else
 * SO voting system assures that the best answers are prominently visible.
 
-To save your and our time we will be systematically closing all the issues that are request for general support and redirecting people to StackOverflow. 
+To save your and our time we will be systematically closing all the issues that are request for general support and redirecting people to StackOverflow.
 
 ## You think you've found a bug?
 
@@ -17,9 +17,9 @@ Oh, we are ashamed and want to fix it asap! But before fixing a bug we need to r
 * version of AngularJS used
 * version of this library that you are using
 * 3rd-party libraries used, if any
-* and most importantly - a use-case that fails 
+* and most importantly - a use-case that fails
 
-A minimal reproduce scenario using http://plnkr.co/ allows us to quickly confirm a bug (or point out coding problem) as well as confirm that we are fixing the right problem. 
+A minimal reproduce scenario using http://plnkr.co/ allows us to quickly confirm a bug (or point out coding problem) as well as confirm that we are fixing the right problem.
 
 We will be insisting on a minimal reproduce scenario in order to save maintainers time and ultimately be able to fix more bugs. Interestingly, from our experience users often find coding problems themselves while preparing a minimal plunk. We understand that sometimes it might be hard to extract essentials bits of code from a larger code-base but we really need to isolate the problem before we can fix it.
 
@@ -48,7 +48,7 @@ We are always looking for the quality contributions and will be happy to accept 
 # Customizing UI-Bootstrap
 
 * Our `angular-ui` branch within the deskfed repository is set up to be a tracking branch that we can keep updated with the AngularUI Bootstrap project. In order to develop locally (and pull in the most
-  recent updates from the AngularUI project), check out the angular-ui branch and set it up to remotely track the AngularUI project. Note that we do not necessarily always want to pull in the most recent changes from AngularUI. See the comments beclow about their naming scheme. 
+  recent updates from the AngularUI project), check out the angular-ui branch and set it up to remotely track the AngularUI project. Note that we do not necessarily always want to pull in the most recent changes from AngularUI. See the comments below about their naming scheme.
   * `git checkout angular-ui`
   * `git remote add --track master angular-ui git://github.com/angular-ui/bootstrap.git` (this creates an `angular-ui` remote that tracks the `master` branch)
   * `git fetch angular-ui` (get most current changes from the new remote)
@@ -59,10 +59,10 @@ We are always looking for the quality contributions and will be happy to accept 
     the AngularUI team is working on version 0.12.0, so their version is `0.12.0-SNAPSHOT`. Any snapshot versions could have instabilities or untested features
     so should be pulled in to ours with extreme caution. (NOTE: See ([Semantic Versioning](http://semver.org/)) for more detail on the versioning scheme and what MAJOR, MINOR and PATCH mean.)
     * To identify our customizations of AngularUI, we increment the `PATCH` number. So the current stable AngularUI version is `0.11.0`. Therefore our first version of that will be `0.11.1`.
-    * When starting development of a feature, use the `grunt version` command to update the package.json version. Run this commmand to update the patch number and append "SNAPSHOT" as a suffix: `grunt version:patch:SNAPSHOT`
+    * When starting development of a feature, use the `grunt version` command to update the package.json version. Run this command to update the patch number and append "SNAPSHOT" as a suffix: `grunt version:patch:SNAPSHOT`
     * When you complete development of a feature, run `grunt version` which removes the "-SNAPSHOT" suffix.
     * Update CHANGELOG.md by running `grunt changelog`. This pulls in your feature commit messages.
-  * Update tests for your new feature. Run tests using `grunt watch` during development so when you finish development you also have passing tests. 
+  * Update tests for your new feature. Run tests using `grunt watch` during development so when you finish development you also have passing tests.
   * Update documentation to include your new feature.
 * Building and updating ([docs site](http://deskfed.github.io/bootstrap)):
   * After updating the documentation to include your new features, delete any existing `dist` folder in your local environment.
