@@ -120,10 +120,10 @@ describe('position elements', function () {
         $window.innerHeight = $window.innerWidth = 100;
       });
 
-      it('should fallback to positionFallback if top is out of bounds', function () {
+      it('should fallback to positionFallback if bottom is out of bounds', function () {
         expect($position.positionElements({}, new TargetElMock(100, 100), 'bottom', false, 'top')).toBePositionedAt(-60, 0);
       });
-      it('should fallback to positionFallback if bottom is out of bounds', function () {
+      it('should fallback to positionFallback if top is out of bounds', function () {
         expect($position.positionElements({}, new TargetElMock(100, 100), 'top', false, 'bottom')).toBePositionedAt(60, 0);
       });
       it('should fallback to positionFallback if left is out of bounds', function () {
@@ -134,16 +134,36 @@ describe('position elements', function () {
       });
 
       describe('with combination coordinates', function () {
-        it('should fallback to positionFallback if top is out of bounds', function () {
+        it('should fallback to positionFallback if bottom-left is out of bounds', function () {
           expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right')).toBePositionedAt(30, 0);
         });
-        it('should fallback to positionFallback if bottom is out of bounds', function () {
-          expect($position.positionElements({}, new TargetElMock(100, 10), 'top-right', false, 'bottom-left')).toBePositionedAt(60, 0);
+        it('should fallback to positionFallback if top-right is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(10, 100), 'top-right', false, 'bottom-left')).toBePositionedAt(60, 40);
         });
       });
+
       describe('should fallback with offset applied', function () {
         it('should fallback to positionFallback if top is out of bounds', function () {
           expect($position.positionElements({}, new TargetElMock(100, 10), 'bottom-left', false, 'top-right 1x1')).toBePositionedAt(31, 0);
+        });
+      });
+
+      describe('should fallback after taking offset into account', function() {
+        // If the element was positioned 'left', it will be at (45,30).
+        // If the element was positioned 'right', it will be at (45,60).
+        // If the element was positioned 'top', it will be at (30,45).
+        // If the element was positioned 'bottom', it will be at (60,45).
+        it('should fallback to positionFallback if left with outset is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(10, 10), 'left -31x20', false, 'right')).toBePositionedAt(45, 60);
+        });
+        it('should fallback to positionFallback if right with outset is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(10, 10), 'right 91x20', false, 'left')).toBePositionedAt(45, 30);
+        });
+        it('should fallback to positionFallback if top with outset is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(10, 10), 'top 20x-31', false, 'bottom')).toBePositionedAt(60, 45);
+        });
+        it('should fallback to positionFallback if bottom with outset is out of bounds', function () {
+          expect($position.positionElements({}, new TargetElMock(10, 10), 'bottom 20x91', false, 'top')).toBePositionedAt(30, 45);
         });
       });
     });
