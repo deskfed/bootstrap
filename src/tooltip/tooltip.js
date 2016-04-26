@@ -123,7 +123,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             var triggers = getTriggers( undefined );
             var hasEnableExp = angular.isDefined(attrs[prefix+'Enable']);
             var ttScope = scope.$new();
-            
+
             var popoverOpen = attrs[prefix+'Open'];
             var popoverAnimation = attrs[prefix+'Animation'];
 
@@ -132,6 +132,10 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
               var ttPosition = $position.positionElements(element, tooltip, ttScope.placement, appendToBody, ttScope.placementFallback);
               ttPosition.top += 'px';
               ttPosition.left += 'px';
+              // Set a boolean to tell us whether the fallback position was used
+              // so we can set the class name on the element appropriately.
+              ttScope.fallbackUsed = ttPosition.placement === ttScope.placementFallback;
+              ttPosition.placement = undefined;
 
               // Now set the calculated positioning.
               tooltip.css( ttPosition );

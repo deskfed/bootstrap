@@ -155,25 +155,27 @@ angular.module('ui.bootstrap.position', [])
             // TOP
             (
               // Popover it outside the top of the containing element
-              ((hostElPos.top - targetElHeight) < 0) &&
+              (targetElPos.top - targetElHeight < 0) &&
               // If we are positioning at the top
               (positionStr.match(/top/) || !positionStr /* 'top' is default */)
             ) || (
               // BOTTOM
-              ((hostElPos.top + hostElPos.height + targetElHeight) > $window.innerHeight) &&
+              (targetElPos.top + targetElHeight > $window.innerHeight) &&
               positionStr.match(/bottom/)
             ) || (
               // LEFT
-              ((hostElPos.left - targetElWidth) < 0) &&
+              (targetElPos.left - targetElWidth < 0) &&
               positionStr.match(/left/)
             ) || (
               // RIGHT
-              ((hostElPos.left + hostElPos.width + targetElWidth) > $window.innerWidth) &&
+              ((targetElPos.left + targetElWidth) > $window.innerWidth) &&
               positionStr.match(/right/)
             )
           )) {
             return doPositioning.call(this, hostEl, targetEl, positionFallbackStr, appendToBody);
           }
+          // Pass this on so we can set the class later.
+          targetElPos.placement = positionStr;
           return targetElPos;
         }
 
